@@ -1,27 +1,3 @@
-conditions
-seizures
-hypertension
-parkinsons
-diabetes
-mentalIllness
-alzheimers
-irregularHeart
-bradicardia
-tachycardia
-respiratory
-multipleSclerosis
-miscNeural
-hypotension
-parkinsonDisease
-mentalHealthIssue
-paralysis
-cancer
-miscHeart
-bradycardia
-brainInjury
-stroke
-sleepApnea
-arthritis
-renalUrinary
-insomnia
-otherHeartCondition
+version https://git-lfs.github.com/spec/v1
+oid sha256:1d91bd408087fdf9e38e9e4b1927a91053e4b26d4b53193d3802080fe7363063
+size 353
