@@ -291,9 +291,11 @@ def extractConditions(df):
 
 def businessIntelligence(result):
     
+    from pandas.tseries import offsets 
+    
     result_1 = result[['index', 'enter','exit','Region']]
-    result_1['week_enter'] = result_1['enter'].dt.strftime('%Y-%U')
-    result_1['week_exit'] = result_1['exit'].dt.strftime('%Y-%U')
+    result_1['week_enter'] = result_1['enter'] + offsets.Week(weekday=6)
+    result_1['week_exit'] = result_1['exit'] + offsets.Week(weekday=6)
 
     userEnter = result_1[['index','week_enter']].groupby(['week_enter']).count()
     userExit = result_1[['index','week_exit']].groupby(['week_exit']).count()
@@ -307,12 +309,14 @@ def businessIntelligence(result):
     users_in_platform = pd.concat([userEnter, userExit], ignore_index=True)
 
     users_in_platform['week'] = users_in_platform['week_enter'].fillna(users_in_platform['week_exit'])
-
     users_in_platform = users_in_platform.drop(['week_exit','week_enter'],axis=1).fillna(0)
+    
     
     users_in_platform[['exit','enter']] = users_in_platform[['exit','enter']].fillna(0).astype(int)
 
     users_in_platform['number_in'] = (users_in_platform['enter'] - users_in_platform['exit']).cumsum()
-
+    users_in_platform = users_in_platform.sort_values(by='week')
+    users_in_platform = users_in_platform.reset_index(drop=True)
+    users_in_platform = users_in_platform[users_in_platform['week'] <= pd.to_datetime('today')]
     
     return users_in_platform
